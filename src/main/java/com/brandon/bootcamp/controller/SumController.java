@@ -11,14 +11,9 @@ import org.springframework.web.bind.annotation.RestController;
 public class SumController {
 
     @GetMapping(value = "/{num1}/{num2}")
-    public Sum getSum(@PathVariable String num1, @PathVariable String num2) {
-        int n1 = 0, n2 = 0;
-        try {
-            n1 = Integer.parseInt(num1);
-            n2 = Integer.parseInt(num2);
-        } catch (NumberFormatException e) {
-            log.error("Please enter an integer to calculate sum.", e);
-        }
-        return new Sum(Integer.sum(n1, n2));
+    public Sum getSum(@PathVariable int num1, @PathVariable int num2) {
+        int sum = num1 + num2;
+        return new Sum(sum);
     }
+
 }
