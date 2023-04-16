@@ -45,4 +45,38 @@ class SumControllerTest extends Specification {
         then:
         response.andExpect(status().isBadRequest())
     }
+
+    def "should handle when no parameters are provided"() {
+        when:
+        def response = mockMvc.perform(get("/"))
+
+        then:
+        response.andExpect(status().isBadRequest())
+    }
+
+    def "should handle one non-integer input value"() {
+        when:
+        def response = mockMvc.perform(get("/10/abc"))
+
+        then:
+        response.andExpect(status().isBadRequest())
+    }
+
+    def "should handle two non-integer input values"() {
+        when:
+        def response = mockMvc.perform(get("/abc/def"))
+
+        then:
+        response.andExpect(status().isBadRequest())
+    }
+
+    def "should return the correct sum for negative integers"() {
+        when:
+        def response = mockMvc.perform(get("/-10/-5"))
+
+        then:
+        response.andExpect(status().isOk())
+        response.andExpect(jsonPath('$.sum').value(-15))
+    }
+
 }
